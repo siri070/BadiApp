@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/badiinfos"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Badi 1"
+        android:textSize="20dp" />
+
+        <ImageView
+            android:id="@+id/wetterBild"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+        </ImageView>
+         <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wetterprognose"
+        android:id="@+id/wetterprognose"     />
+
+    <ListView
+        android:id="@+id/badidetails"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom">
+    </ListView>
+  </LinearLayout>
