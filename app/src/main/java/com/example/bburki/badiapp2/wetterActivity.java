@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,7 +32,7 @@ public class wetterActivity extends AppCompatActivity {
     private String badiId;
     private String name;
     private ProgressDialog mDialog;
-    private String wetterArt;
+    private String[] wetterArt;
 
 
     @Override
@@ -46,7 +48,7 @@ public class wetterActivity extends AppCompatActivity {
         getWetter("http://api.openweathermap.org/data/2.5/weather?APPID=5e76a7fcbd44a92d2b2b0b39064eab05&q=" +(String) ort );
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-           }
+        }
 
     private void getWetter(String url){
                final ArrayAdapter temps= new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
@@ -102,6 +104,8 @@ public class wetterActivity extends AppCompatActivity {
                 double min_k = wetter.getDouble("temp_min");
                 double min_c= min_k-273.15;
                 resultList.add("Min: " + (float)min_c +"°C");
+
+
 
                 return resultList;
             }
