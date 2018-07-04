@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     ArrayAdapter badiliste;
@@ -27,9 +29,10 @@ public class MainActivity extends AppCompatActivity {
     private void addBadiToList(){
         ListView badis = (ListView) findViewById(R.id.badiliste);
         badiliste = new ArrayAdapter<String>(this, android.R.layout. simple_list_item_1 );
-        badiliste.add( getString(R.string.badaarberg) );
-        badiliste.add( getString(R.string.badadelboden)  );
-        badiliste.add( getString(R.string.badbern)  );
+        final ArrayList<ArrayList<String>> allBadis = BadiData.allBadis(getApplicationContext());
+        for (ArrayList<String> b : allBadis) {
+            badiliste.add(b.get(5)+"-"+b.get(8));
+        }
         badis.setAdapter(badiliste);
 
         AdapterView.OnItemClickListener mListClickedHandler = new AdapterView.OnItemClickListener() {
@@ -37,15 +40,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), BadiDetailsActivity.class);
                 String seleced = parent.getItemAtPosition(position).toString();
                 Toast.makeText(MainActivity.this, seleced, Toast.LENGTH_SHORT).show();
-                if(seleced.equals(getString(R.string.badaarberg) )){
-                    intent.putExtra("badi","71");
-                }
-                if(seleced.equals(getString(R.string.badadelboden) )){
-                    intent.putExtra("badi","27");
-                }
-                if(seleced.equals(getString(R.string.badbern) )){
-                    intent.putExtra("badi","6");
-                }
+                //Intent mit Zusatzinformationen - hier die Badi Nummer
+                intent.putExtra("badi", allBadis.get(position).get(0));
                 intent.putExtra("name", seleced);
                 startActivity(intent);
             }
