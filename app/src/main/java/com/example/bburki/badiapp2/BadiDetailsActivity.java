@@ -56,7 +56,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
         badiId= intent.getStringExtra("badi");
         name = intent.getStringExtra("name");
         becken = intent.getStringExtra("becken");
-
+        ort= intent.getStringExtra("ort");
         TextView text = (TextView) findViewById(R.id.badiinfos);
 
         text.setText(name);
@@ -216,7 +216,6 @@ public class BadiDetailsActivity extends AppCompatActivity {
                 ArrayList<String> resultList = new ArrayList<String>();
                 JSONObject jsonObj = new JSONObject(jonString);
                 //Auslesen der Daten aus dem JSONObject, für das Wetter musste zuerst noch ein JSONArray gemacht werden und aus dem ein JSONObjekt
-                ort = jsonObj.getString("ort");
                 JSONArray a = jsonObj.getJSONArray("wetter");
                 JSONObject object = a.getJSONObject(0);
                 resultList.add("Lufttemperatur:" + object.getString("wetter_temp")+"C");

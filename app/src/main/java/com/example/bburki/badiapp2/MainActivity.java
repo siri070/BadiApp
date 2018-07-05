@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("badi", allBadis.get(position).get(0));
                 intent.putExtra("name", seleced);
                 intent.putExtra("becken", allBadis.get(position).get(8));
+                intent.putExtra("ort", allBadis.get(position).get(5));
                 startActivity(intent);
             }
         };
