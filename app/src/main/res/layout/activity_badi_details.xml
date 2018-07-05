@@ -27,12 +27,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wetterprognose"
-        android:id="@+id/wetterprognose"     />
+        android:id="@+id/wetterprognose"
+        android:background="@color/bg"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"     />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Als Favorit setzten"
-        android:id="@+id/favoritHinzufuegen"     />
+        android:id="@+id/favoritHinzufuegen"
+        android:background="@color/bg"
+        android:layout_marginLeft="20dp"/>
 
     <ListView
         android:id="@+id/badidetails"
