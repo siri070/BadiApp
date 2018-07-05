@@ -51,9 +51,16 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
         name = intent.getStringExtra("name");
         mDialog= ProgressDialog.show(this, "Lade Wetterprognose","Bitte warten...");
         getWetter("http://api.openweathermap.org/data/2.5/weather?APPID=5e76a7fcbd44a92d2b2b0b39064eab05&q=" +(String) ort );
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         }
+
+    public boolean onSupportNavigateUp(){
+        onBackPressed();
+        return true;
+    }
     private void error(String text){
 
         AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
