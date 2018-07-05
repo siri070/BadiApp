@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -110,6 +111,9 @@ public class BadiDetailsActivity extends AppCompatActivity {
                 ArrayList<String> resultList = new ArrayList<String>();
                 JSONObject jsonObj = new JSONObject(jonString);
                 ort = jsonObj.getString("ort");
+                JSONArray a = jsonObj.getJSONArray("wetter");
+                JSONObject object = a.getJSONObject(0);
+                resultList.add("Lufttemperatur:" + object.getString("wetter_temp")+"C");
 
                 JSONObject becken = jsonObj.getJSONObject("becken");
                 Iterator keys = becken.keys();

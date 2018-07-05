@@ -32,7 +32,7 @@ public class wetterActivity extends AppCompatActivity {
     private String badiId;
     private String name;
     private ProgressDialog mDialog;
-    private String[] wetterArt;
+    private String wetterArt;
 
 
     @Override
@@ -46,7 +46,9 @@ public class wetterActivity extends AppCompatActivity {
         name = intent.getStringExtra("name");
         mDialog= ProgressDialog.show(this, "Lade Wetterprognose","Bitte warten...");
         getWetter("http://api.openweathermap.org/data/2.5/weather?APPID=5e76a7fcbd44a92d2b2b0b39064eab05&q=" +(String) ort );
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ImageView img = (ImageView) findViewById(R.id.wetterBild);
 
         }
 
@@ -78,7 +80,6 @@ public class wetterActivity extends AppCompatActivity {
                     List<String> wetter = parseWetterprognose(result);
 
                     ListView wetterprognose = (ListView) findViewById(R.id.wetter);
-
                     temps.addAll(wetter);
 
                     wetterprognose.setAdapter(temps);
@@ -90,6 +91,43 @@ public class wetterActivity extends AppCompatActivity {
             private List parseWetterprognose(String jonString)throws JSONException{
                 ArrayList<String> resultList = new ArrayList<String>();
                 JSONObject jsonObject = new JSONObject(jonString);
+                JSONArray a = jsonObject.getJSONArray("weather");
+                JSONObject object = a.getJSONObject(0);
+                wetterArt= object.getString("main");
+                ImageView img = (ImageView) findViewById(R.id.wetterBild);
+                switch (wetterArt){
+                    case "Clouds":
+                        //Bild
+                        img.setImageResource(R.drawable.clouds);
+                        resultList.add("Bewölkt");
+                        break;
+                    case "Sun":
+                        //Bild
+                        img.setImageResource(R.drawable.sun);
+                        resultList.add("Sonne");
+                        break;
+                    case "Rain":
+                        //Bild
+                        img.setImageResource(R.drawable.rain);
+                        resultList.add("Regen");
+                        break;
+                    case "Snow":
+                        //Bild
+                        img.setImageResource(R.drawable.snow);
+                        resultList.add("Schnee");
+                        break;
+
+                    case "Thunderstorm":
+                        //Bild
+                        img.setImageResource(R.drawable.thunderstorm);
+                        resultList.add("Gewitter");
+                        break;
+                    default:
+                        img.setImageResource(R.drawable.notfound);
+                        resultList.add("Wetterart ist nicht definiert");
+                        break;
+                }
+
                 JSONObject wetter = jsonObject.getJSONObject("main");
                 Iterator keys = wetter.keys();
 
@@ -111,6 +149,8 @@ public class wetterActivity extends AppCompatActivity {
             }
 
         }.execute(url);
+
+
     }
 
 }
