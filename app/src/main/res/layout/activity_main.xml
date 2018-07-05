@@ -9,7 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/favoriten"
-        android:text="Meine Favoriten"/>
+        android:text="Meine Favoriten"
+        android:background ="@color/colorAccent"
+        android:textColor="@color/text"/>
+
 
     <ImageView
         android:id="@+id/badilogo"

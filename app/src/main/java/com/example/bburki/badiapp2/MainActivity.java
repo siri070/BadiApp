@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         };
         badis.setOnItemClickListener(mListClickedHandler);
 
+
     }
     private void OnClick_Favoriten(){
         //Listener für den Wetterprognose-Button
