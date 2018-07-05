@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class BadiData {
+public class FavoritenData {
     private static ArrayList<ArrayList<String>> dataFromFile;
 
-    private BadiData(Context c) {
-        Scanner scanner = new Scanner(c.getResources().openRawResource(R.raw.badi_ids_dataset));
+    private FavoritenData(Context c) {
+        Scanner scanner = new Scanner(c.getResources().openRawResource(R.raw.favoriten_data));
         scanner.useDelimiter(";");
         dataFromFile = new ArrayList<ArrayList<String>>();
         while (scanner.hasNext()){
@@ -23,9 +23,8 @@ public class BadiData {
     }
     public static ArrayList<ArrayList<String>> allBadis(Context c) {
         if (null == dataFromFile) {
-            new BadiData(c);
+            new FavoritenData(c);
         }
         return dataFromFile;
     }
-
 }

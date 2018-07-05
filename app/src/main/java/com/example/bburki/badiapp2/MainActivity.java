@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView img = (ImageView)findViewById(R.id.badilogo);
         img.setImageResource(R.drawable.badi);
         addBadiToList();
+        OnClick_Favoriten();
     }
 
     private void addBadiToList(){
@@ -49,6 +51,19 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         badis.setOnItemClickListener(mListClickedHandler);
+
+    }
+    private void OnClick_Favoriten(){
+        //Listener für den Wetterprognose-Button
+        Button favoriten = (Button) findViewById(R.id.favoriten);
+        View.OnClickListener wpListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), favoriten.class);
+                startActivity(intent);
+            }
+        };
+        favoriten.setOnClickListener(wpListener);
 
     }
 

@@ -52,7 +52,6 @@ public class BadiDetailsActivity extends AppCompatActivity {
         getBadiTemp("http://www.wiewarm.ch/api/v1/bad.json/" + badiId);
        OnClick_WetterPrognose();
 
-
     }
     private void OnClick_WetterPrognose(){
         //Listener für den Wetterprognose-Button
@@ -70,8 +69,6 @@ public class BadiDetailsActivity extends AppCompatActivity {
         wetterprognose.setOnClickListener(wpListener);
 
     }
-
-
     private void error(String text){
 
         AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
