@@ -66,7 +66,8 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
                         // Do nothing but close the dialog
                     }
                 });
-
+        //hi
+        //hi
         // Remember, create doesn't show the dialog
         AlertDialog helpDialog = helpBuilder.create();
         helpDialog.show();
