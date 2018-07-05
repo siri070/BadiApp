@@ -1,7 +1,9 @@
 package com.example.bburki.badiapp2;
 
 import android.content.Context;
+import android.os.Environment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -10,7 +12,9 @@ public class FavoritenData {
     private static ArrayList<ArrayList<String>> dataFromFile;
 
     private FavoritenData(Context c) {
-        Scanner scanner = new Scanner(c.getResources().openRawResource(R.raw.favoriten_data));
+      // String path=  Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator+"favoriten"+File.separator+"favoriten_data.csv";
+
+        Scanner scanner = new Scanner(Environment.getExternalStorageDirectory()+File.separator+"favoriten"+File.separator+"favoriten_data.csv");
         scanner.useDelimiter(";");
         dataFromFile = new ArrayList<ArrayList<String>>();
         while (scanner.hasNext()){

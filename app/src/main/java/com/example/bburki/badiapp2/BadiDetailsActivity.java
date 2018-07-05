@@ -5,11 +5,12 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,11 +21,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.io.Writer;
 
 
 public class BadiDetailsActivity extends AppCompatActivity {
@@ -33,6 +39,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
     private String badiId;
     private String name;
        private String ort;
+       private String becken;
     private ProgressDialog mDialog;
 
     @Override
@@ -43,6 +50,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         badiId= intent.getStringExtra("badi");
         name = intent.getStringExtra("name");
+        becken = intent.getStringExtra("becken");
 
         TextView text = (TextView) findViewById(R.id.badiinfos);
 
@@ -51,6 +59,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
         mDialog = ProgressDialog.show(this, "Lade Badi-Infos", "Bitte warten...");
         getBadiTemp("http://www.wiewarm.ch/api/v1/bad.json/" + badiId);
        OnClick_WetterPrognose();
+       OnClick_hinzufuegen();
 
     }
     private void OnClick_WetterPrognose(){
@@ -69,7 +78,67 @@ public class BadiDetailsActivity extends AppCompatActivity {
         wetterprognose.setOnClickListener(wpListener);
 
     }
-    private void error(String text){
+    private void OnClick_hinzufuegen(){
+        //Listener für den Wetterprognose-Button
+        Button hinzufuegen = (Button) findViewById(R.id.favoritHinzufuegen);
+        View.OnClickListener wpListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                 File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"favoriten");
+                 if(!fileDir.exists()){
+                     try {
+                         fileDir.mkdir();
+                     }
+                     catch (Exception e ){
+                         Log.v(TAG, e.toString());
+                     }
+                 }
+                 File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"favoriten"+File.separator+"favotiten_data.csv");
+                 if(!file.exists()){
+                     try{
+                         file.createNewFile();
+                     }
+                     catch (Exception e){
+                         Log.v(TAG, e.toString());
+                     }
+                 }
+
+                 if(file.exists()){
+                     try{
+                         FileWriter fileWriter = new FileWriter(file);
+                         BufferedWriter bufferedWriter= new BufferedWriter(fileWriter);
+                         bufferedWriter.write(badiId+";"+name+";"+ort+";"+becken);
+                         bufferedWriter.close();
+                     }
+                     catch (Exception e){
+                         Log.v(TAG, e.toString());
+                     }
+                    error("Das hinzufügen der Badi hat geklappt: :) ");
+                 }
+
+
+            }
+
+        };
+        hinzufuegen.setOnClickListener(wpListener);
+
+
+    }
+    private void export_FavoritenData() throws IOException{
+        File folder = new File(Environment.getExternalStorageDirectory()+"/favoriten");
+        boolean hatGeklappt= false;
+         if (!folder.exists()){
+             hatGeklappt = folder.mkdirs();
+             final String filename = folder.toString()+File.separator+"favoriten_data.csv";
+
+         }
+
+
+
+    }
+    private void error(String text ){
 
         AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
         helpBuilder.setTitle("Fehler");
