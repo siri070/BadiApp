@@ -2,8 +2,10 @@ package com.example.bburki.badiapp2;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -14,7 +16,12 @@ public class FavoritenData {
     private FavoritenData(Context c) {
       // String path=  Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator+"favoriten"+File.separator+"favoriten_data.csv";
 //hi
-        Scanner scanner = new Scanner(Environment.getExternalStorageDirectory()+File.separator+"favoriten"+File.separator+"favoriten_data.csv");
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File(Environment.getExternalStorageDirectory()+File.separator+"favoriten"+File.separator+"favotiten_data.csv"));
+        } catch (FileNotFoundException e) {
+            Log.i("ohhneii",e.toString());
+        }
         scanner.useDelimiter(";");
         dataFromFile = new ArrayList<ArrayList<String>>();
         while (scanner.hasNext()){
