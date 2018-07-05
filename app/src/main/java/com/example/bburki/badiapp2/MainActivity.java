@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView img = (ImageView)findViewById(R.id.badilogo);
         img.setImageResource(R.drawable.badi);
         addBadiToList();
+        //Listener für den Button
         OnClick_Favoriten();
     }
 
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void OnClick_Favoriten(){
-        //Listener für den Wetterprognose-Button
+        //Listener für den Mein-Favoriten Button
         Button favoriten = (Button) findViewById(R.id.favoriten);
         View.OnClickListener wpListener = new View.OnClickListener() {
             @Override

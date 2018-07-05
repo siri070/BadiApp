@@ -31,7 +31,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Zu meinen Favoriten hinzufügen"
+        android:text="Als Favorit setzten"
         android:id="@+id/favoritHinzufuegen"     />
 
     <ListView
