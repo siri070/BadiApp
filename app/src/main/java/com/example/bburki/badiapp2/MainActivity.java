@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void OnClick_Favoriten(){
+
         //Listener für den Mein-Favoriten Button
         Button favoriten = (Button) findViewById(R.id.favoriten);
         View.OnClickListener wpListener = new View.OnClickListener() {
