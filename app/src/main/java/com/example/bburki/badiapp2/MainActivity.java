@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 //Intent mit Zusatzinformationen - hier die Badi Nummer
                 intent.putExtra("badi", allBadis.get(position).get(0));
                 intent.putExtra("name", seleced);
+                intent.putExtra("becken", allBadis.get(position).get(8));
                 startActivity(intent);
             }
         };
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener wpListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), favoriten.class);
+                Intent intent = new Intent(getApplicationContext(), FavoritenActivity.class);
                 startActivity(intent);
             }
         };

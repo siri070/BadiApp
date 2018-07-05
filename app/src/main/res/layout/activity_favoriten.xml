@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".favoriten">
+    tools:context=".FavoritenActivity">
     <ListView
-        android:id="@+id/favoritenliste"
+        android:id="@+id/favoritenListe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom"></ListView>
-
+        android:layout_gravity="bottom">
+    </ListView>
 </LinearLayout>

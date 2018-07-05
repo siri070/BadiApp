@@ -27,10 +27,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wetterprognose"
+<<<<<<< HEAD
         android:id="@+id/wetterprognose"
         android:background="@color/colorPrimary"
         android:textColor="@color/text"
         android:layout_margin="5dp"     />
+=======
+        android:id="@+id/wetterprognose"     />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zu meinen Favoriten hinzufügen"
+        android:id="@+id/favoritHinzufuegen"     />
+>>>>>>> master
 
     <ListView
         android:id="@+id/badidetails"
@@ -38,9 +47,4 @@
         android:layout_height="match_parent"
         android:layout_gravity="bottom">
     </ListView>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zu meinen Favoriten hinzufügen"
-        android:id="@+id/favoritHinzufuegen"     />
   </LinearLayout>

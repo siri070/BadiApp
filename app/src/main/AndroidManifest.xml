@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bburki.badiapp2">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -18,21 +20,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".BadiDetailsActivity"
             android:label="@string/info"
             android:parentActivityName="com.example.bburki.badiapp2.MainActivity">
+=======
+        <activity
+            android:name=".BadiDetailsActivity"
+            android:label="@string/temp"
+            android:parentActivityName=".MainActivity">
+>>>>>>> master
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bburki.badiapp2.MainActivity" />
         </activity>
-        <activity android:name=".wetterActivity"
+        <activity
+            android:name=".wetterActivity"
             android:label="@string/Wetter"
-            android:parentActivityName="com.example.bburki.badiapp2.BadiDetailsActivity" >
+            android:parentActivityName=".BadiDetailsActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bburki.badiapp2.BadiDetailsActivity" />
+        </activity>
+        <activity android:name=".FavoritenActivity"
+            android:label="@string/temp"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bburki.badiapp2.MainActivity" />
+
         </activity>
     </application>
 
