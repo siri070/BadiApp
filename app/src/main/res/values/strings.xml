@@ -5,5 +5,5 @@
     <string name="badadelboden">Schwimmbad Gruebi Adelboden (BE)</string>
     <string name="Wetter">Wetter</string>
     <string name="temp">Temperatur</string>
-    <string name="name"></string>
+    <string name="info">Badiinfos</string>
 </resources>
