@@ -13,7 +13,7 @@ public class FavoritenData {
 
     private FavoritenData(Context c) {
       // String path=  Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator+"favoriten"+File.separator+"favoriten_data.csv";
-
+//hi
         Scanner scanner = new Scanner(Environment.getExternalStorageDirectory()+File.separator+"favoriten"+File.separator+"favoriten_data.csv");
         scanner.useDelimiter(";");
         dataFromFile = new ArrayList<ArrayList<String>>();
