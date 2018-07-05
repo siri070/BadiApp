@@ -57,7 +57,9 @@ public class BadiDetailsActivity extends AppCompatActivity {
         text.setText(name);
 
         mDialog = ProgressDialog.show(this, "Lade Badi-Infos", "Bitte warten...");
+        //Daten holen
         getBadiTemp("http://www.wiewarm.ch/api/v1/bad.json/" + badiId);
+        //Listener für die Buttons
        OnClick_WetterPrognose();
        OnClick_hinzufuegen();
 
@@ -79,14 +81,14 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
     }
     private void OnClick_hinzufuegen(){
-        //Listener für den Wetterprognose-Button
+        //Listener für den Button zum hinzufügen eines Favoriten
         Button hinzufuegen = (Button) findViewById(R.id.favoritHinzufuegen);
         View.OnClickListener wpListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
                  File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"favoriten");
+                 //èberprüfung ob es den Ordner schon gibt, falls nicht wird er erstellt
                  if(!fileDir.exists()){
                      try {
                          fileDir.mkdir();
@@ -96,6 +98,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
                      }
                  }
                  File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"favoriten"+File.separator+"favotiten_data.csv");
+                 //Überprüfung ob das File schon existiert, falls nicht wird es erstellt
                  if(!file.exists()){
                      try{
                          file.createNewFile();
@@ -109,11 +112,13 @@ public class BadiDetailsActivity extends AppCompatActivity {
                      try{
                          FileWriter fileWriter = new FileWriter(file);
                          BufferedWriter bufferedWriter= new BufferedWriter(fileWriter);
+                         //Daten in das File schreiben
                          bufferedWriter.write(badiId+";"+name+";"+ort+";"+becken);
                          bufferedWriter.close();
                      }
                      catch (Exception e){
                          Log.v(TAG, e.toString());
+                         error("Es konnte kein neuer Favorit gesetzt werden");
                      }
                     error("Das hinzufügen der Badi hat geklappt: :) ");
                  }
@@ -126,22 +131,12 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
 
     }
-    private void export_FavoritenData() throws IOException{
-        File folder = new File(Environment.getExternalStorageDirectory()+"/favoriten");
-        boolean hatGeklappt= false;
-         if (!folder.exists()){
-             hatGeklappt = folder.mkdirs();
-             final String filename = folder.toString()+File.separator+"favoriten_data.csv";
 
-         }
-
-
-
-    }
+    //Alert für das ausgeben von Fehlern
     private void error(String text ){
 
         AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
-        helpBuilder.setTitle("Fehler");
+        helpBuilder.setTitle("Meldung");
         helpBuilder.setMessage(text);
         helpBuilder.setPositiveButton("Ok",
                 new DialogInterface.OnClickListener() {
@@ -157,6 +152,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
     }
 
+    //Holen der Daten
     private void getBadiTemp(String url) {
         final ArrayAdapter temps = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 
@@ -185,6 +181,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
             public void onPostExecute(String result) {
                 try {
                     mDialog.dismiss();
+                    //Daten vorbereiten
                     List<String> badiInfos = parseBadiTemp(result);
 
                     ListView badidetails = (ListView) findViewById(R.id.badidetails);
@@ -196,12 +193,15 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
                 }catch (JSONException e) {
                     Log.v(TAG, e.toString());
+                    //Errorhandling
                     error("Daten können nicht gelesen werden.");
                 }
             }
             private List parseBadiTemp(String jonString)throws JSONException {
+
                 ArrayList<String> resultList = new ArrayList<String>();
                 JSONObject jsonObj = new JSONObject(jonString);
+                //Auslesen der Daten aus dem JSONObject, für das Wetter musste zuerst noch ein JSONArray gemacht werden und aus dem ein JSONObjekt
                 ort = jsonObj.getString("ort");
                 JSONArray a = jsonObj.getJSONArray("wetter");
                 JSONObject object = a.getJSONObject(0);
@@ -210,6 +210,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
                 JSONObject becken = jsonObj.getJSONObject("becken");
                 Iterator keys = becken.keys();
                 while(keys.hasNext()) {
+                    //Hinzufügen der Daten zu der Liste
                     String key = (String) keys.next();
 
                     JSONObject subObj = becken.getJSONObject(key); //Wenn man die Antwort der Webseite anschaut, steckt
