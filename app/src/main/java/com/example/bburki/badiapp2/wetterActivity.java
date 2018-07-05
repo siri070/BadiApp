@@ -46,10 +46,12 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
         setContentView(R.layout.activity_wetter);
 
         Intent intent = getIntent();
+        //Holen der übergebenen Daten
         ort = intent.getStringExtra("ort");
         badiId= intent.getStringExtra("badi");
         name = intent.getStringExtra("name");
         mDialog= ProgressDialog.show(this, "Lade Wetterprognose","Bitte warten...");
+        //Daten von der API holen
         getWetter("http://api.openweathermap.org/data/2.5/weather?APPID=5e76a7fcbd44a92d2b2b0b39064eab05&q=" +(String) ort );
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,6 +63,7 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
         onBackPressed();
         return true;
     }
+    //Popup für Fehlermeldung
     private void error(String text){
 
         AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
@@ -73,8 +76,7 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
                         // Do nothing but close the dialog
                     }
                 });
-        //hi
-        //hi
+
         // Remember, create doesn't show the dialog
         AlertDialog helpDialog = helpBuilder.create();
         helpDialog.show();
@@ -106,6 +108,7 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
             public void onPostExecute(String result){
                 try {
                     mDialog.dismiss();
+                    //Daten für die Liste vorbereiten
                     List<String> wetter = parseWetterprognose(result);
 
                     ListView wetterprognose = (ListView) findViewById(R.id.wetter);
@@ -119,11 +122,14 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
 
             }
             private List parseWetterprognose(String jonString)throws JSONException{
+
                 ArrayList<String> resultList = new ArrayList<String>();
                 JSONObject jsonObject = new JSONObject(jonString);
+                //Holen der Wetterart , dafür musste zuerst ein JSONArry und danach daraus ein JSONObjet erstellt werden
                 JSONArray a = jsonObject.getJSONArray("weather");
                 JSONObject object = a.getJSONObject(0);
                 wetterArt= object.getString("main");
+                //Switch um die Wetterart herauszufinden
                 ImageView img = (ImageView) findViewById(R.id.wetterBild);
                 switch (wetterArt){
                     case "Clouds":
@@ -157,10 +163,11 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
                         resultList.add("Wetterart ist nicht definiert");
                         break;
                 }
-
+                //Temperaturdaten aus dem JSONObject holen
                 JSONObject wetter = jsonObject.getJSONObject("main");
                 Iterator keys = wetter.keys();
 
+                //Muss umgerechnet werden da es in Kelvin und nicht in Celsius ist
                 double temp_k = wetter.getDouble("temp");
                 double temp_c = temp_k- 273.15;
                 resultList.add("Momentan"+ (float)temp_c+" °C");
@@ -172,8 +179,6 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
                 double min_k = wetter.getDouble("temp_min");
                 double min_c= min_k-273.15;
                 resultList.add("Min: " + (float)min_c +"°C");
-
-
 
                 return resultList;
             }
