@@ -19,12 +19,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".BadiDetailsActivity"
+            android:label="@string/temp"
             android:parentActivityName="com.example.bburki.badiapp2.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bburki.badiapp2.MainActivity" />
         </activity>
         <activity android:name=".wetterActivity"
+            android:label="@string/Wetter"
             android:parentActivityName="com.example.bburki.badiapp2.BadiDetailsActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
