@@ -1,6 +1,8 @@
 package com.example.bburki.badiapp2;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +51,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
         mDialog = ProgressDialog.show(this, "Lade Badi-Infos", "Bitte warten...");
         getBadiTemp("http://www.wiewarm.ch/api/v1/bad.json/" + badiId);
        OnClick_WetterPrognose();
+
     }
     private void OnClick_WetterPrognose(){
         //Listener für den Wetterprognose-Button
@@ -64,6 +67,24 @@ public class BadiDetailsActivity extends AppCompatActivity {
             }
         };
         wetterprognose.setOnClickListener(wpListener);
+
+    }
+    private void error(String text){
+
+        AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+        helpBuilder.setTitle("Fehler");
+        helpBuilder.setMessage(text);
+        helpBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                    }
+                });
+
+        // Remember, create doesn't show the dialog
+        AlertDialog helpDialog = helpBuilder.create();
+        helpDialog.show();
 
     }
 
@@ -87,6 +108,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
                 }catch(Exception e) {
                     Log.v(TAG, e.toString());
+                    error("Ein Fehler beim Holen der Daten ist aufgetreten. Bitte stelle eine Internetverbindung her.");
                 }
                 return msq;
             }
@@ -105,6 +127,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
                 }catch (JSONException e) {
                     Log.v(TAG, e.toString());
+                    error("Daten können nicht gelesen werden.");
                 }
             }
             private List parseBadiTemp(String jonString)throws JSONException {

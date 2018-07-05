@@ -1,18 +1,23 @@
 package com.example.bburki.badiapp2;
 
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
+import android.app.AlertDialog;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -25,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class wetterActivity extends AppCompatActivity {
+public class wetterActivity extends AppCompatActivity implements DialogInterface {
 
     private  static String TAG="Wetterprognose";
     private String ort;
@@ -46,12 +51,27 @@ public class wetterActivity extends AppCompatActivity {
         name = intent.getStringExtra("name");
         mDialog= ProgressDialog.show(this, "Lade Wetterprognose","Bitte warten...");
         getWetter("http://api.openweathermap.org/data/2.5/weather?APPID=5e76a7fcbd44a92d2b2b0b39064eab05&q=" +(String) ort );
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ImageView img = (ImageView) findViewById(R.id.wetterBild);
 
         }
+    private void error(String text){
 
+        AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+        helpBuilder.setTitle("Fehler");
+        helpBuilder.setMessage(text);
+        helpBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                    }
+                });
+
+        // Remember, create doesn't show the dialog
+        AlertDialog helpDialog = helpBuilder.create();
+        helpDialog.show();
+
+    }
     private void getWetter(String url){
                final ArrayAdapter temps= new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 
@@ -70,6 +90,7 @@ public class wetterActivity extends AppCompatActivity {
 
                }catch (Exception e){
                     Log.v(TAG, e.toString());
+                    error("Ein Fehler beim Holen der Daten ist aufgetreten. Bitte stelle eine Internetverbindung her.");
                }
 
                 return msq;
@@ -85,6 +106,7 @@ public class wetterActivity extends AppCompatActivity {
                     wetterprognose.setAdapter(temps);
                 }catch (JSONException e){
                     Log.v(TAG, e.toString());
+                    error("Daten können nicht gelesen werden.");
                 }
 
             }
@@ -153,4 +175,13 @@ public class wetterActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void cancel() {
+
+    }
+
+    @Override
+    public void dismiss() {
+
+    }
 }
