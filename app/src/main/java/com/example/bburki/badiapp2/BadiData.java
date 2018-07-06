@@ -10,6 +10,7 @@ public class BadiData {
     private static ArrayList<ArrayList<String>> dataFromFile;
 
     private BadiData(Context c) {
+        // Daten sollen beim Start der APP zu lesen sein.
         Scanner scanner = new Scanner(c.getResources().openRawResource(R.raw.badi_ids_dataset));
         scanner.useDelimiter(";");
         dataFromFile = new ArrayList<ArrayList<String>>();
@@ -21,6 +22,8 @@ public class BadiData {
         }
         scanner.close();
     }
+
+    // Zur verwendung in der Main Activity
     public static ArrayList<ArrayList<String>> allBadis(Context c) {
         if (null == dataFromFile) {
             new BadiData(c);

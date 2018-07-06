@@ -6,4 +6,5 @@
     <string name="Wetter">Wetter</string>
     <string name="temp">Temperatur</string>
     <string name="info">Badiinfos</string>
+    <string name="fav">Mein Favorit</string>
 </resources>

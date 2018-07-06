@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         //Listener für den Button
         OnClick_Favoriten();
     }
-
+    // Liste der Badi in der Main
     private void addBadiToList(){
         ListView badis = (ListView) findViewById(R.id.badiliste);
         badiliste = new ArrayAdapter<String>(this, android.R.layout. simple_list_item_1 );

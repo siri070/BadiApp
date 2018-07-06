@@ -39,7 +39,7 @@
                 android:value="com.example.bburki.badiapp2.BadiDetailsActivity" />
         </activity>
         <activity android:name=".FavoritenActivity"
-            android:label="@string/temp"
+            android:label="@string/fav"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
