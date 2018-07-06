@@ -3,6 +3,7 @@ package com.example.bburki.badiapp2;
 import android.content.Context;
 import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.*;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
@@ -26,6 +27,9 @@ import static junit.framework.TestCase.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
+
     ArrayList<ArrayList<String>>dataFromFile;
     @Before
     public void vorbereitung(){
@@ -87,8 +91,6 @@ public class MainActivityTest {
         scanner.close();
 
     }
-    @Rule
-    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void listViewcontainsAarberg(){
@@ -115,8 +117,10 @@ public class MainActivityTest {
     public void favortitenSetzen(){
 
         for (ArrayList<String> b : dataFromFile) {
-            favoritenListe.add(b.get(2)+"-"+b.get(3));
-            assertEquals("Aarberg", b.get());
+            assertEquals(7, b.get(0));
+            assertEquals("Aarberg", b.get(1));
+            assertEquals("Aarberg", b.get(2));
+            assertEquals("Schwimmbecken", b.get(3));
         }
         assertEquals("Aarberg", );
     }

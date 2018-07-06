@@ -141,7 +141,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
                          Log.v(TAG, e.toString());
                          error("Es konnte kein neuer Favorit gesetzt werden");
                      }
-                    error("Das hinzufügen der Badi hat geklappt: :) ");
+                    error("Die Badi wurde als Favorit gesetzt. :) ");
                  }
 
 
