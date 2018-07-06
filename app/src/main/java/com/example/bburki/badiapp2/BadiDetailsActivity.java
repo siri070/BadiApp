@@ -86,15 +86,16 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
     }
     private void OnClick_hinzufuegen(){
+        //Permisson holen
         int permissonCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if( ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+        if( ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
 
-                    }
-                    else{
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSON_REQUEST_WRITE_EXTERNAL_STORAGE);
-                    }
-                }
+            }
+            else{
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSON_REQUEST_WRITE_EXTERNAL_STORAGE);
+            }
+        }
         //Listener für den Button zum hinzufügen eines Favoriten
         Button hinzufuegen = (Button) findViewById(R.id.favoritHinzufuegen);
         View.OnClickListener wpListener = new View.OnClickListener() {
@@ -141,6 +142,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
             }
 
         };
+
         hinzufuegen.setOnClickListener(wpListener);
 
 
@@ -168,21 +170,29 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
     //Holen der Daten
     private void getBadiTemp(String url) {
+        //Den ArrayAdapter wollen wir später verwenden um die Temperaturen zu speichern
+        //angezeigt sollen sie im Format der simple_list_item_1 werden (einem Standard Android Element)
         final ArrayAdapter temps = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 
+        //Android verlangt, dass die Datenverarbeitung von den GUI Prozessen getrennt wird
+        //Darum starten wir hier einen asynchronen Task (quasi einen Hintergrundprozess).
         new AsyncTask<String,String,String>() {
+            //Der AsyncTask verlangt die implementation der Methode doInBackground.
+            //Nachdem doInBackground ausgeführt wurde, startet automatisch die Methode onPostExecute
+            //mit den Daten die man in der Metohde doInBackground mit return zurückgegeben hat (hier msg).
             @Override
-            protected String doInBackground(String[] badi) { //In der variable msg soll die Antwort der Seite wiewarm
+            protected String doInBackground(String[] badi) {
+                //In der variable msg soll die Antwort der Seite wiewarm.ch gespeichert werden
                 String msq= "";
                 try {
                     URL url = new URL(badi[0]);
-
+                    //Hier bauen wir die Verbindung auf:
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    // webseite antwort lesen
+                    //Lesen des Antwortcodes der Webseite:
                     int code = conn.getResponseCode();
-
+                    //Hier lesen wir die Nachricht der Webseite wiewarm.ch für Badi XY:
                     msq = IOUtils.toString(conn.getInputStream());
-
+                    //und Loggen den Statuscode in der Konsole:
                     Log.i(TAG, Integer.toString(code));
 
                 }catch(Exception e) {
@@ -193,16 +203,22 @@ public class BadiDetailsActivity extends AppCompatActivity {
             }
             @Override
             public void onPostExecute(String result) {
+                //In result werden zurückgelieferten Daten der Methode doInBackground (return msg;) übergeben.
+                // Hier ist also unser Resultat der Seite z.B. http://www.wiewarm.ch/api/v1/bad.json/55
+                // In einem Browser IE, Chrome usw. sieht man schön das Resulat als JSON formatiert.
+                // JSON Daten können wir aber nicht direkt ausgeben, also müssen wir sie umformatieren.
                 try {
+                    //Nun können wir den Lade Dialog wieder ausblenden (die Daten sind ja gelesen)
                     mDialog.dismiss();
                     //Daten vorbereiten
                     List<String> badiInfos = parseBadiTemp(result);
-
+                    //Jetzt müssen wir nur noch alle Elemente der Liste badidetails hinzufügen.
+                    // Dazu holen wir die ListView badidetails vom GUI
                     ListView badidetails = (ListView) findViewById(R.id.badidetails);
 
-
+                    //und befüllen unser ArrayAdapter den wir am Anfang definiert haben (braucht es zum befüllen eines ListViews)
                     temps.addAll(badiInfos);
-
+                    //Mit folgender Zeile fügen wir den befüllten ArrayAdapter der ListView hinzu:
                     badidetails.setAdapter(temps);
 
                 }catch (JSONException e) {

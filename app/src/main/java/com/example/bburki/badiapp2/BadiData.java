@@ -14,6 +14,7 @@ public class BadiData {
         Scanner scanner = new Scanner(c.getResources().openRawResource(R.raw.badi_ids_dataset));
         scanner.useDelimiter(";");
         dataFromFile = new ArrayList<ArrayList<String>>();
+
         while (scanner.hasNext()){
             String dataInRow = scanner.nextLine();
             String[]dataInRowArray = dataInRow.split(";");
