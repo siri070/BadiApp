@@ -6,5 +6,6 @@
     <color name="red">#ffff0000</color>
     <color name="text">#ffffff</color>
     <color name="bg"> #d1d7fa</color>
+    <color name="ganz">#dce0f7</color>
 
 </resources>
