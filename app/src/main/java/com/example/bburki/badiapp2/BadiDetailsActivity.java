@@ -3,9 +3,11 @@ package com.example.bburki.badiapp2;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Network;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -14,7 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
+import android.net.NetworkInfo;
+import android.net.ConnectivityManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,6 +34,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -46,6 +51,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
        private String becken;
     private ProgressDialog mDialog;
     private int MY_PERMISSON_REQUEST_WRITE_EXTERNAL_STORAGE;
+    private int MY_PERMISSON_REQUEST_ACCESS_NETWORK_STATE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +179,15 @@ public class BadiDetailsActivity extends AppCompatActivity {
         //Den ArrayAdapter wollen wir später verwenden um die Temperaturen zu speichern
         //angezeigt sollen sie im Format der simple_list_item_1 werden (einem Standard Android Element)
         final ArrayAdapter temps = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        int permissonCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE);
+        if( ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)!= PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_NETWORK_STATE)){
+
+            }
+            else{
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, MY_PERMISSON_REQUEST_ACCESS_NETWORK_STATE);
+            }
+        }
 
         //Android verlangt, dass die Datenverarbeitung von den GUI Prozessen getrennt wird
         //Darum starten wir hier einen asynchronen Task (quasi einen Hintergrundprozess).
@@ -185,9 +200,12 @@ public class BadiDetailsActivity extends AppCompatActivity {
                 //In der variable msg soll die Antwort der Seite wiewarm.ch gespeichert werden
                 String msq= "";
                 try {
+
                     URL url = new URL(badi[0]);
+
                     //Hier bauen wir die Verbindung auf:
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
                     //Lesen des Antwortcodes der Webseite:
                     int code = conn.getResponseCode();
                     //Hier lesen wir die Nachricht der Webseite wiewarm.ch für Badi XY:
@@ -195,9 +213,10 @@ public class BadiDetailsActivity extends AppCompatActivity {
                     //und Loggen den Statuscode in der Konsole:
                     Log.i(TAG, Integer.toString(code));
 
+
                 }catch(Exception e) {
                     Log.v(TAG, e.toString());
-                    error("Ein Fehler beim Holen der Daten ist aufgetreten. Bitte stelle eine Internetverbindung her.");
+
                 }
                 return msq;
             }
@@ -218,13 +237,18 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
                     //und befüllen unser ArrayAdapter den wir am Anfang definiert haben (braucht es zum befüllen eines ListViews)
                     temps.addAll(badiInfos);
-                    //Mit folgender Zeile fügen wir den befüllten ArrayAdapter der ListView hinzu:
+
                     badidetails.setAdapter(temps);
 
                 }catch (JSONException e) {
                     Log.v(TAG, e.toString());
                     //Errorhandling
-                    error("Daten können nicht gelesen werden.");
+                    if(result == "" || result== null) {
+                        error("Ein Fehler beim Holen der Daten ist aufgetreten. Bitte stelle eine Internetverbindung her.");
+                    }
+                    else {
+                        error("Daten können nicht gelesen werden.");
+                    }
                 }
             }
             private List parseBadiTemp(String jonString)throws JSONException {

@@ -100,7 +100,6 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
 
                }catch (Exception e){
                     Log.v(TAG, e.toString());
-                    error("Ein Fehler beim Holen der Daten ist aufgetreten. Bitte stelle eine Internetverbindung her.");
                }
 
                 return msq;
@@ -117,7 +116,12 @@ public class wetterActivity extends AppCompatActivity implements DialogInterface
                     wetterprognose.setAdapter(temps);
                 }catch (JSONException e){
                     Log.v(TAG, e.toString());
-                    error("Daten können nicht gelesen werden.");
+                    if(result == "" || result== null) {
+                        error("Ein Fehler beim Holen der Daten ist aufgetreten. Bitte stelle eine Internetverbindung her.");
+                    }
+                    else {
+                        error("Daten können nicht gelesen werden.");
+                    }
                 }
 
             }
